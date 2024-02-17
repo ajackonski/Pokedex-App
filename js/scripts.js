@@ -1,3 +1,4 @@
+//IIFE containing the list of pokemon
 let pokemonRepository = (function () {
     let pokemonList = [
         { name: 'Bulbasaur', height: 0.7, type: ['grass', 'poison'] },
@@ -12,27 +13,28 @@ let pokemonRepository = (function () {
     ];
 
 
-    function getAll () {
+    function getAll() {
         return pokemonList;
     }
-    function add (pokemon) {
+    function add(pokemon) {
         pokemonList.push(pokemon);
     }
-
+    //function to display the list of pokemon as interactable buttons
     function addListItem(pokemon) {
         let mainList = document.querySelector('.pokemon-List')
         let listItem = document.createElement('li')
         let button = document.createElement('button')
-        button.addEventListener('click', function(){
+        button.addEventListener('click', function () {
             showDetails(pokemon)
         })
         button.innerText = pokemon.name
         button.classList.add("mainButton")
         listItem.appendChild(button)
         mainList.appendChild(listItem)
-        
+
     }
 
+    //event listener callback function for lines 27-29
     function showDetails(pokemon) {
         console.log(pokemon);
     }
@@ -50,6 +52,6 @@ let pokemonRepository = (function () {
 let pokelist = pokemonRepository.getAll();
 
 
-pokelist.forEach(function(pokemon) {
+pokelist.forEach(function (pokemon) {
     pokemonRepository.addListItem(pokemon)
 })
