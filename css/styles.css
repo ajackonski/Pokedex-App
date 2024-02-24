@@ -5,7 +5,8 @@
 
 .pokemon-List {
     list-style-type: none;
-    float: left
+    display: grid;
+    text-align: center;
 }
 
 .mainButton {
