@@ -23,7 +23,7 @@ let pokemonRepository = (function () {
         button.innerText = pokemon.name;
         button.classList.add("btn");
         button.classList.add("btn-info");
-        button.classList.add("col-8");
+        button.classList.add("col-6");
         button.setAttribute("data-toggle", 'modal');
         button.setAttribute("data-target", '#infoModal');
         button.addEventListener('click', function () {
