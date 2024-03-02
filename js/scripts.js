@@ -69,7 +69,7 @@ let pokemonRepository = (function () {
 //function to populate modal with pokemon details (name. height, and image)
     function showDetails(pokemon) {
         loadDetails(pokemon).then(function () {
-            showModal(item);
+            showModal(pokemon);
         });
     }
 
