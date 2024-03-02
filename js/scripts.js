@@ -24,8 +24,8 @@ let pokemonRepository = (function () {
         button.classList.add("btn");
         button.classList.add("btn-info");
         button.classList.add("col-6");
-        button.setAttribute("data-toggle", 'modal');
-        button.setAttribute("data-target", '#infoModal');
+        button.setAttribute("data-bs-toggle", 'modal');
+        button.setAttribute("data-bs-target", '#infoModal');
         button.addEventListener('click', function () {
             showDetails(pokemon)
         });
@@ -40,7 +40,7 @@ let pokemonRepository = (function () {
         }).then(function (json) {
             json.results.forEach(function (item) {
                 let pokemon = {
-                    name: item.name,
+                    name: capitalizeFirstLetter(item.name),
                     detailsUrl: item.url
                 };
                 add(pokemon);
@@ -57,9 +57,11 @@ let pokemonRepository = (function () {
         }).then(function (details) {
             // Now we add the details to the item
             item.imageUrlFront = details.sprites.front_default;
+            item.imageUrlBack = details.sprites.back_default;
             item.height = details.height;
             item.types = details.types;
             item.abilities = details.abilities;
+            item.weight = details.weight;
         }).catch(function (e) {
             console.error(e);
         });
@@ -74,22 +76,38 @@ let pokemonRepository = (function () {
     }
 
     function showModal(item) {
+        console.log(item)
         let modalBody = $(".modal-body");
         let modalTitle = $(".modal-title");
         let modalHeader = $(".modal-header");
+        let typesList = ''
+        let abilitiesList = ''
+        
+        
+        item.types.forEach(function (type) {
+            console.log(type)
+            typesList += ('<li class="list-group-item">' + capitalizeFirstLetter(type.type.name) + '</li>')
+        });
+
+        item.abilities.forEach(function(ability) {
+            abilitiesList += ('<li class="list-group-item">' + capitalizeFirstLetter(ability.ability.name) + '</li>')
+        });
 
         modalTitle.empty();
         modalBody.empty();
 
         let nameElement = $("<h1>" + item.name + "</h1>");
 
-        let imageElementFront = $('<img class="modal-image" style="width:50%>');
+        let imageElementFront = $('<img class="img-fluid" style="width:50%">');
         imageElementFront.attr("src", item.imageUrlFront);
 
-        let heightElement = $("<p>" + "height : " + item.height);
-        let weightElement = $("<p>" + "weight : " + item.weight + "</p>");
-        let typesElement = $("<p>" + "types : " + item.types + "</p>");
-        let abilitiesElement = $("<p>" + "abilities : " + item.abilities + "</p>");
+        let imageElementBack = $('<img class="img-fluid" style="width:50%">');
+        imageElementBack.attr("src", item.imageUrlBack);
+
+        let heightElement = $("<h4>" + "height : " + "</h4>" + "<p>" + item.height + '(dm)' + "</p>");
+        let weightElement = $("<h4>" + "weight : " + "</h4>" + "<p>" + item.weight + '(hg)' + "</p>");
+        let typesElement = $("<h4>" + "types : " + "</h4>" + '<ul class="list-group">'+ typesList + '</ul>');
+        let abilitiesElement = $("<h4>" + "abilities : " + "</h4>" + '<p class="lead"><ul class="list-group">' + abilitiesList + '</ul></p>');
 
         modalTitle.append(nameElement);
         modalBody.append(imageElementFront);
@@ -100,6 +118,10 @@ let pokemonRepository = (function () {
         modalBody.append(abilitiesElement);
 
 
+    }
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     return {
