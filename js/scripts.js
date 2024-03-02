@@ -29,6 +29,7 @@ let pokemonRepository = (function () {
         button.addEventListener('click', function () {
             showDetails(pokemon)
         });
+        addEventListenerToButton(button, pokemon)
         listItem.appendChild(button);
         mainList.appendChild(listItem);
 
@@ -69,9 +70,15 @@ let pokemonRepository = (function () {
 //function to populate modal with pokemon details (name. height, and image)
     function showDetails(pokemon) {
         loadDetails(pokemon).then(function () {
-            showModal(pokemon);
+            showModal(item);
         });
     }
+
+    function addEventListenerToButton(button, pokemon) {
+        button.addEventListener('click', function() {
+          showDetails(pokemon);
+        })
+      }
 
     function showModal(item) {
         let modalBody = $(".modal-body");
